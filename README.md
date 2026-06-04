@@ -188,6 +188,4 @@ Pastikan:
 
 ## Lisensi
 
-Copyright (c) 2026 @syams_ideris
-
-MIT License — lihat file [LICENSE](LICENSE) untuk detail lengkap.
+2026 @syams_ideris - MIT License — lihat file [LICENSE](LICENSE) untuk detail lengkap.
