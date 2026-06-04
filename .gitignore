@@ -1,0 +1,103 @@
+# ============================================================
+# Environment & Secrets
+# ============================================================
+.env
+.env.backup
+.env.production
+.env.staging
+/auth.json
+/storage/*.key
+
+# ============================================================
+# Dependencies (install via composer/npm, jangan commit)
+# ============================================================
+/vendor
+/node_modules
+
+# ============================================================
+# Build Artifacts (generate via npm run build)
+# ============================================================
+/public/build
+/public/hot
+/public/storage
+/public/fonts-manifest.dev.json
+
+# ============================================================
+# Log & Cache
+# ============================================================
+*.log
+/storage/pail
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/bootstrap/cache/config.php
+/bootstrap/cache/routes-v7.php
+/bootstrap/cache/packages.php
+/bootstrap/cache/services.php
+/bootstrap/cache/events.php
+
+# ============================================================
+# AI Tools & Assistants
+# ============================================================
+/.claude/
+/.claude_memory/
+/.cursorignore
+/.cursor/
+/.cursorrules
+/.copilot/
+/.github/copilot-instructions.md
+/.aider*
+/.codeium/
+/.continue/
+/.tabby/
+/.sourcegraph/
+/.cody/
+/.windsurf/
+/.bolt/
+/CLAUDE.md
+
+# ============================================================
+# IDE & Editor
+# ============================================================
+/.idea
+/.vscode
+/.nova
+/.zed
+/.codex
+/.fleet
+*.swp
+*.swo
+*~
+
+# ============================================================
+# Testing & Quality Tools
+# ============================================================
+/.phpunit.cache
+/.phpunit.result.cache
+.phpactor.json
+_ide_helper.php
+_ide_helper_models.php
+.phpstorm.meta.php
+/coverage
+
+# ============================================================
+# OS Files
+# ============================================================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ============================================================
+# Server & Provisioning (jangan commit config lokal)
+# ============================================================
+Homestead.json
+Homestead.yaml
+docker-compose.override.yml
+/.vagrant
+
+# ============================================================
+# Dokumentasi Non-Produksi (panduan & pitchdeck)
+# ============================================================
+/EXECUTIVE_SUMMARY.md
+/PANDUAN_*.md
+/USER.md

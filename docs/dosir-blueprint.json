@@ -1,0 +1,32 @@
+{
+  "proyek": {"nama": "e-Surat Pemda (SUMAKEL)", "versi": "1.0.0", "lisensi": "MIT", "copyright": "Copyright (c) 2026 @syams_ideris", "tier": "PENUH", "dibuat": "2026-06-04"},
+  "stack": {
+    "backend": "Laravel 11 / PHP 8.3",
+    "frontend": "Blade + Bootstrap 5.3 (Vite) + chart.js",
+    "db": "MySQL 8",
+    "deploy": "VPS Ubuntu 22.04 + Nginx + PHP-FPM, queue database"
+  },
+  "modul": [
+    {"id": "01", "nama": "Fondasi: auth, RBAC, master, layout, penomoran", "spec": "docs/SPEC-01-fondasi.md", "tergantung": [], "status": "selesai"},
+    {"id": "02", "nama": "Surat masuk, disposisi, tindak lanjut", "spec": "docs/SPEC-02-surat-masuk-disposisi.md", "tergantung": ["01"], "status": "selesai"},
+    {"id": "03", "nama": "Surat keluar, penomoran, routing antar-OPD", "spec": "docs/SPEC-03-surat-keluar-routing.md", "tergantung": ["01", "02"], "status": "selesai"},
+    {"id": "04", "nama": "Notifikasi, dashboard, agenda", "spec": "docs/SPEC-04-notifikasi-dashboard.md", "tergantung": ["02", "03"], "status": "selesai"}
+  ],
+  "keputusan": [
+    {"id": "D1", "isi": "Multi-OPD via shared DB + kolom opd_id + global scope trait BelongsToOpd", "alasan": "tanpa paket tenancy; routing antar-OPD butuh akses lintas yang terkontrol"},
+    {"id": "D2", "isi": "Nomor surat keluar digenerate saat Terbitkan, bukan saat draft", "alasan": "draft batal tidak membolongi urutan nomor"},
+    {"id": "D3", "isi": "PenomoranService terpusat (counter per OPD/jenis/tahun, lockForUpdate)", "alasan": "dipakai nomor agenda SM dan nomor SK; aman konkurensi"},
+    {"id": "D4", "isi": "Modul 02/03 memancarkan Event; modul 04 yang mengirim Notification", "alasan": "modul inti tidak bergantung pada infrastruktur notifikasi"},
+    {"id": "D5", "isi": "Telegram via custom channel HTTP, tanpa package", "alasan": "ringan; WhatsApp tinggal menambah channel sejenis"},
+    {"id": "D6", "isi": "Routing antar-OPD menduplikasi baris lampiran, bukan file fisik", "alasan": "hemat storage; satu file PDF dirujuk dua surat"}
+  ],
+  "asumsi": [
+    {"id": "A1", "isi": "Ada role superadmin level pemda di atas 3 role OPD", "status": "aktif"},
+    {"id": "A2", "isi": "Isi surat keluar disusun di luar aplikasi; aplikasi mengarsip PDF final", "status": "aktif"},
+    {"id": "A3", "isi": "Format nomor default {klasifikasi}/{nomor}/{kode_opd}/{bulan_romawi}/{tahun}, dapat diubah per OPD", "status": "aktif"},
+    {"id": "A4", "isi": "Kanal chat MVP = Telegram; WhatsApp ditunda", "status": "aktif"},
+    {"id": "A5", "isi": "Disposisi berantai bebas se-OPD tanpa pemodelan eselon formal", "status": "aktif"},
+    {"id": "A6", "isi": "Laravel 11", "status": "aktif"}
+  ],
+  "verifikasi_global": {"perintah": ["php artisan test", "./vendor/bin/pint --test"], "terakhir_lulus": null}
+}
