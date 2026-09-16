@@ -65,4 +65,5 @@
         @csrf
         <button type="submit" class="sk-logout"><x-icon name="box-arrow-right" /> Keluar</button>
     </form>
+    <div class="sk-version">SUMAKEL v{{ config('app.version') }}</div>
 </div>

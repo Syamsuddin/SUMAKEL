@@ -198,6 +198,10 @@ Pastikan:
 - `APP_ENV=production`, `APP_DEBUG=false`
 - `php artisan config:cache && php artisan route:cache && php artisan view:cache`
 
+## Versi & Riwayat Perubahan
+
+Versi berjalan: **1.0.0** — lihat [CHANGELOG.md](CHANGELOG.md). Nomor versi ditetapkan di `composer.json`, `package.json`, dan `config/app.php` (`app.version`, tampil di halaman masuk dan sidebar).
+
 ## Lisensi
 
 Copyright (c) 2026 @syams_ideris

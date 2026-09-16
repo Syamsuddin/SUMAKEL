@@ -235,6 +235,13 @@ button:focus-visible,
   }
 }
 
+.sk-version {
+  margin-top: .75rem;
+  font-size: .6875rem;
+  color: var(--sk-nav-label);
+  text-align: center;
+}
+
 // Offcanvas variant (mobile)
 .sk-offcanvas {
   background: $primary;
