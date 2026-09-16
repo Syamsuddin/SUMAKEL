@@ -106,6 +106,10 @@
 }
 
 // Tables
+.table-responsive {
+  position: relative; // contain absolutely-positioned .visually-hidden headers
+}
+
 .table > thead {
   background: var(--sk-muted);
   font-size: .875rem;
@@ -126,6 +130,47 @@
 // Gold rule used for "official" markers (kop, doc header)
 .sk-gold-rule {
   border-top: 2px solid var(--sk-gold);
+}
+
+// Inline links that must still be comfortable to tap
+.sk-touch {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.card-header > a:not(.btn) {
+  @extend .sk-touch;
+  margin: -.5rem 0;
+}
+
+// On touch devices every compact control grows to the 44px minimum;
+// desktop tables keep their compact rows.
+@media (pointer: coarse) {
+  .btn-sm,
+  .form-control-sm,
+  .form-select-sm,
+  .input-group-sm > .form-control,
+  .input-group-sm > .btn {
+    min-height: 44px;
+  }
+
+  .form-check-input {
+    width: 1.5em;
+    height: 1.5em;
+    margin-top: 0;
+  }
+
+  .form-check-label {
+    padding-left: .25rem;
+    line-height: 1.5em;
+  }
+
+  .table td .btn + .btn,
+  .table td form + .btn,
+  .table td .btn + form {
+    margin-left: .5rem; // >= 8px between adjacent targets
+  }
 }
 
 // Form submit spinner state

@@ -39,12 +39,12 @@
     </div>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <div class="form-check">
+        <div class="form-check sk-touch">
             <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
             <label class="form-check-label" for="remember">Ingat saya</label>
         </div>
         @if(Route::has('password.request'))
-            <a class="small" href="{{ route('password.request') }}">Lupa kata sandi?</a>
+            <a class="small sk-touch" href="{{ route('password.request') }}">Lupa kata sandi?</a>
         @endif
     </div>
 

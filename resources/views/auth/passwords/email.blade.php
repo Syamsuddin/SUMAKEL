@@ -27,6 +27,6 @@
         <x-icon name="send" /> Kirim Tautan Reset
     </button>
 
-    <a href="{{ route('login') }}" class="d-block text-center small"><x-icon name="arrow-left" /> Kembali ke halaman masuk</a>
+    <a href="{{ route('login') }}" class="d-block text-center small py-2"><x-icon name="arrow-left" /> Kembali ke halaman masuk</a>
 </form>
 @endsection

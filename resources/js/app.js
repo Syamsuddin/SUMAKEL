@@ -22,6 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Return focus to the element that opened a modal once it closes
+    document.querySelectorAll('.modal').forEach((modal) => {
+        let opener = null;
+        modal.addEventListener('show.bs.modal', (e) => { opener = e.relatedTarget || document.activeElement; });
+        modal.addEventListener('hidden.bs.modal', () => { if (opener && document.contains(opener)) opener.focus(); });
+    });
+
     // Show/hide password toggles
     document.querySelectorAll('[data-password-toggle]').forEach((btn) => {
         btn.addEventListener('click', () => {

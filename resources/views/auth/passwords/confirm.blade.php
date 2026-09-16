@@ -27,7 +27,7 @@
     <button type="submit" class="btn btn-primary w-100 mb-3">Konfirmasi</button>
 
     @if(Route::has('password.request'))
-        <a class="d-block text-center small" href="{{ route('password.request') }}">Lupa kata sandi?</a>
+        <a class="d-block text-center small py-2" href="{{ route('password.request') }}">Lupa kata sandi?</a>
     @endif
 </form>
 @endsection

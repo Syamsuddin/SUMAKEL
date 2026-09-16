@@ -14,7 +14,8 @@ body {
   top: -100px;
   left: 1rem;
   z-index: 2000;
-  padding: .5rem 1rem;
+  min-height: 44px;
+  padding: .75rem 1rem;
   background: $primary;
   color: #fff;
   border-radius: $border-radius-sm;
@@ -327,6 +328,9 @@ button:focus-visible,
     font-size: .9375rem;
 
     a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
       color: $text-muted;
       text-decoration: none;
 

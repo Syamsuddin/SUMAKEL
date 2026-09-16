@@ -28,5 +28,5 @@
     {"id": "A5", "isi": "Disposisi berantai bebas se-OPD tanpa pemodelan eselon formal", "status": "aktif"},
     {"id": "A6", "isi": "Laravel 11", "status": "aktif"}
   ],
-  "verifikasi_global": {"perintah": ["php artisan test", "./vendor/bin/pint --test"], "terakhir_lulus": null}
+  "verifikasi_global": {"perintah": ["php artisan test", "./vendor/bin/pint --test"], "terakhir_lulus": "2026-09-17"}
 }

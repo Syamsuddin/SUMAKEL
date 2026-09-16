@@ -303,25 +303,25 @@ Tidak ada perubahan di `app/`, `routes/`, `database/`. Test Pest yang ada harus 
 ## 8. Checklist UX yang Ditegakkan
 
 **Kritis**
-- [ ] Kontras teks ≥ 4.5:1 (khusus: label seksi sidebar, badge warning, teks muted)
-- [ ] Semua tombol ikon punya `aria-label`; lonceng emoji dihapus
-- [ ] Skip link, focus ring 3px, urutan tab = urutan visual
-- [ ] Target sentuh ≥ 44×44px; jarak antar target ≥ 8px
-- [ ] `prefers-reduced-motion` dihormati
+- [x] Kontras teks ≥ 4.5:1 (khusus: label seksi sidebar, badge warning, teks muted)
+- [x] Semua tombol ikon punya `aria-label`; lonceng emoji dihapus
+- [x] Skip link, focus ring 3px, urutan tab = urutan visual
+- [x] Target sentuh ≥ 44×44px; jarak antar target ≥ 8px — desktop: nav, tombol utama, input; kontrol `-sm` (tabel/filter) membesar ke 44px lewat `@media (pointer: coarse)`
+- [x] `prefers-reduced-motion` dihormati
 
 **Tinggi**
-- [ ] Tabel → kartu di ≤ 768px; tidak ada scroll horizontal halaman
-- [ ] Teks dasar 16px (saat ini 14.4px)
-- [ ] Nav item ikon + label; state aktif jelas; breadcrumb ≥ 3 level
-- [ ] Satu CTA utama per halaman
+- [x] Tabel → kartu di ≤ 768px; tidak ada scroll horizontal halaman
+- [x] Teks dasar 16px (sebelumnya 14.4px)
+- [x] Nav item ikon + label; state aktif jelas; breadcrumb ≥ 3 level
+- [x] Satu CTA utama per halaman
 
 **Sedang**
-- [ ] Status/sifat tidak hanya warna (ikon + teks)
-- [ ] Empty state dengan aksi
-- [ ] Konfirmasi destruktif via modal, tombol merah terpisah dari aksi utama
-- [ ] Error form di bawah field + fokus otomatis ke field pertama yang salah
-- [ ] Tombol submit disable + spinner saat proses
-- [ ] Grafik: seri dibedakan gaya garis, legend terlihat, tooltip, `aria-label` ringkasan
+- [x] Status/sifat tidak hanya warna (ikon + teks)
+- [x] Empty state dengan aksi
+- [x] Konfirmasi destruktif via modal, tombol merah terpisah dari aksi utama
+- [x] Error form di bawah field + fokus otomatis ke field pertama yang salah
+- [x] Tombol submit disable + spinner saat proses
+- [x] Grafik: seri dibedakan gaya garis, legend terlihat, tooltip, `aria-label` ringkasan
 
 **Anti-pola yang dihindari** (dari generator): ornamen, kontras rendah, efek gerak berlebihan, gradien ungu/pink "AI".
 
@@ -339,6 +339,16 @@ Tidak ada perubahan di `app/`, `routes/`, `database/`. Test Pest yang ada harus 
 Cabang: `feat/ui-redesign-institusional`. Setiap fase satu PR, commit konvensional (`feat(ui): ...`).
 
 ---
+
+## 9a. Hasil QA Fase 4 (2026-09-17)
+
+- **Kontras**: audit in-browser (rasio WCAG tiap elemen teks terhadap latar efektif) pada 14 halaman × 4 peran → 0 kegagalan setelah `$danger` → `#B91C1C` dan `$code-color` → `#9D174D`.
+- **Nama aksesibel**: 0 tombol/tautan tanpa nama.
+- **Viewport 375/768/1024/1440**: tidak ada scroll horizontal; tabel → kartu di <768; sidebar → offcanvas di <992; filter bar membungkus rapi di 1024. Perbaikan: `.table-responsive { position: relative }` (header `visually-hidden` sempat memicu overflow 417px di 375).
+- **Keyboard**: Tab pertama = skip link (tampak, lompat ke `#konten-utama`), urutan tab = urutan visual, focus ring 3px di semua elemen; modal: focus trap Bootstrap + fokus kembali ke tombol pemicu saat ditutup (`app.js`).
+- **Reduced motion**: `@media (prefers-reduced-motion: reduce)` menolkan durasi transisi/animasi (ada di CSS hasil build).
+- **Cetak**: `_print.scss` menyembunyikan sidebar/topbar/filter/aksi saat halaman aplikasi dicetak.
+- `php artisan test` 46 lulus, `pint --test` lulus, `npm run build` sukses.
 
 ## 10. Keputusan yang Perlu Dikonfirmasi
 

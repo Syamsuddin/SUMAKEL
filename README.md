@@ -80,6 +80,14 @@ Atau gunakan SQLite (default):
 DB_CONNECTION=sqlite
 ```
 
+Identitas Pemda yang tampil di sidebar, halaman masuk, dan kop cetak agenda:
+
+```env
+APP_PEMDA="Pemerintah Kabupaten Hulu Sungai Selatan"
+APP_TAGLINE="Sistem Tata Persuratan Elektronik Pemerintah Daerah"
+APP_LOGO=images/logo-pemda.png   # relatif terhadap public/
+```
+
 ```bash
 # Jalankan migrasi & seeder
 php artisan migrate:fresh --seed
