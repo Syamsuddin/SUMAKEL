@@ -22,11 +22,15 @@ class StatusChip extends Component
         'didisposisi' => ['icon' => 'diagram-3', 'tone' => 'info', 'label' => 'Didisposisi'],
         'selesai' => ['icon' => 'patch-check', 'tone' => 'success', 'label' => 'Selesai'],
         'diarsip' => ['icon' => 'archive', 'tone' => 'neutral', 'label' => 'Diarsip'],
+        // tujuan surat keluar
+        'internal' => ['icon' => 'building', 'tone' => 'info', 'label' => 'Antar-OPD'],
+        'eksternal' => ['icon' => 'globe2', 'tone' => 'neutral', 'label' => 'Eksternal'],
         // status surat keluar
         'draft' => ['icon' => 'pencil-square', 'tone' => 'neutral', 'label' => 'Draft'],
         'terbit' => ['icon' => 'patch-check', 'tone' => 'success', 'label' => 'Terbit'],
         // status disposisi
         'terkirim' => ['icon' => 'send', 'tone' => 'danger', 'label' => 'Terkirim'],
+        'dibaca' => ['icon' => 'envelope-open', 'tone' => 'warning', 'label' => 'Dibaca'],
         'diproses' => ['icon' => 'hourglass-split', 'tone' => 'info', 'label' => 'Diproses'],
     ];
 

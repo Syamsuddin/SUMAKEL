@@ -139,3 +139,444 @@
 .alert {
   border-left-width: 4px;
 }
+
+// ---------- Fase 2: module components ----------
+
+// Sticky filter bar
+.sk-filter-bar {
+  background: var(--sk-muted);
+  border: 1px solid var(--sk-border);
+  border-radius: $border-radius;
+  padding: .75rem 1rem;
+  margin-bottom: 1rem;
+
+  .form-label {
+    font-size: .8125rem;
+    margin-bottom: .25rem;
+    color: $secondary;
+  }
+}
+
+// Two-line clamp for perihal in tables
+.sk-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Desktop table / mobile card list switch
+.sk-table-wrap {
+  display: none;
+
+  @include media-breakpoint-up(md) {
+    display: block;
+  }
+
+  td {
+    vertical-align: middle;
+  }
+}
+
+.sk-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+}
+
+.sk-list-card {
+  display: block;
+  padding: .875rem 1rem;
+  background: var(--sk-surface);
+  border: 1px solid var(--sk-border);
+  border-radius: $border-radius;
+  color: $body-color;
+  text-decoration: none;
+  box-shadow: $box-shadow-sm;
+
+  &:hover,
+  &:focus {
+    color: $body-color;
+    border-color: $info;
+  }
+
+  .sk-list-card-title {
+    font-weight: 600;
+    margin-bottom: .25rem;
+  }
+
+  .sk-list-card-meta {
+    font-size: .875rem;
+    color: $text-muted;
+  }
+
+  .sk-list-card-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .375rem;
+    margin-top: .5rem;
+  }
+}
+
+// Pagination footer with range info
+.sk-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin-top: 1rem;
+  font-size: .9375rem;
+  color: $text-muted;
+
+  .pagination {
+    margin: 0;
+  }
+}
+
+// Document header (kop) for mail detail pages
+.sk-doc {
+  background: var(--sk-surface);
+  border: 1px solid var(--sk-border);
+  border-top: 3px solid var(--sk-gold);
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-sm;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.sk-doc-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: .75rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--sk-border);
+}
+
+.sk-doc-label {
+  display: block;
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: $text-muted;
+  margin-bottom: .125rem;
+}
+
+.sk-doc-number {
+  font-family: $headings-font-family;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $primary;
+  line-height: 1.2;
+  word-break: break-word;
+
+  &.is-placeholder {
+    font-family: $font-family-sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    font-style: italic;
+    color: $text-muted;
+  }
+}
+
+.sk-doc-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .375rem;
+}
+
+.sk-doc-meta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .875rem 1.5rem;
+  margin-bottom: 1rem;
+
+  @include media-breakpoint-up(sm) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  dt {
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: $text-muted;
+    font-weight: 600;
+    margin-bottom: .125rem;
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 500;
+  }
+}
+
+.sk-doc-perihal {
+  padding-top: 1rem;
+  border-top: 1px solid var(--sk-border);
+
+  h2 {
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: $text-muted;
+    margin-bottom: .25rem;
+  }
+
+  p {
+    font-size: 1.0625rem;
+    margin: 0;
+  }
+}
+
+// Attachment list
+.sk-attachment {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .625rem 1rem;
+  color: $body-color;
+  text-decoration: none;
+
+  .sk-attachment-icon {
+    font-size: var(--icon-lg);
+    color: $danger;
+    flex-shrink: 0;
+  }
+
+  &.is-image .sk-attachment-icon {
+    color: $info;
+  }
+
+  .sk-attachment-name {
+    flex-grow: 1;
+    min-width: 0;
+    word-break: break-word;
+    font-weight: 500;
+  }
+
+  .sk-attachment-size {
+    font-size: .8125rem;
+    color: $text-muted;
+    white-space: nowrap;
+  }
+}
+
+// Vertical stepper timeline for dispositions
+.sk-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: .5rem;
+    bottom: .5rem;
+    left: 15px;
+    width: 2px;
+    background: var(--sk-border);
+  }
+}
+
+.sk-timeline-item {
+  position: relative;
+  padding-left: 2.75rem;
+  padding-bottom: 1.25rem;
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+
+  &.is-nested {
+    padding-left: 4.25rem;
+
+    .sk-timeline-dot {
+      left: 1.5rem;
+      width: 24px;
+      height: 24px;
+      font-size: .8125rem;
+      top: .25rem;
+    }
+  }
+}
+
+.sk-timeline-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--sk-surface);
+  box-shadow: 0 0 0 2px var(--sk-border);
+  background: var(--sk-muted);
+  color: $secondary;
+  font-size: 1rem;
+
+  &.tone-danger  { background: #FEE2E2; color: #991B1B; }
+  &.tone-warning { background: #FEF3C7; color: #92400E; }
+  &.tone-info    { background: #E0F2FE; color: #075985; }
+  &.tone-success { background: #DCFCE7; color: #166534; }
+}
+
+.sk-timeline-card {
+  background: var(--sk-surface);
+  border: 1px solid var(--sk-border);
+  border-radius: $border-radius;
+  padding: .75rem 1rem;
+
+  .sk-timeline-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .375rem .75rem;
+    margin-bottom: .25rem;
+  }
+
+  .sk-timeline-time {
+    font-size: .8125rem;
+    color: $text-muted;
+  }
+
+  .sk-timeline-body {
+    margin: .25rem 0 0;
+  }
+
+  .sk-timeline-deadline {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    font-size: .8125rem;
+    margin-top: .375rem;
+
+    &.is-overdue {
+      color: $danger;
+      font-weight: 600;
+    }
+  }
+}
+
+.is-nested .sk-timeline-card {
+  background: $body-bg;
+}
+
+// Horizontal 3-step stepper for outgoing mail
+.sk-stepper {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+  counter-reset: step;
+}
+
+.sk-step {
+  flex: 1 1 0;
+  position: relative;
+  text-align: center;
+  padding: 0 .25rem;
+  font-size: .8125rem;
+  color: $text-muted;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: -50%;
+    width: 100%;
+    height: 2px;
+    background: var(--sk-border);
+    z-index: 0;
+  }
+
+  &:first-child::before {
+    display: none;
+  }
+
+  .sk-step-dot {
+    position: relative;
+    z-index: 1;
+    width: 32px;
+    height: 32px;
+    margin: 0 auto .375rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--sk-surface);
+    border: 2px solid var(--sk-border);
+    color: $text-muted;
+    font-weight: 600;
+  }
+
+  .sk-step-label {
+    display: block;
+    font-weight: 500;
+  }
+
+  .sk-step-sub {
+    display: block;
+    font-size: .75rem;
+  }
+
+  &.is-done {
+    color: $success;
+
+    &::before { background: $success; }
+
+    .sk-step-dot {
+      background: $success;
+      border-color: $success;
+      color: #fff;
+    }
+  }
+
+  &.is-current {
+    color: $primary;
+    font-weight: 600;
+
+    &::before { background: $success; }
+
+    .sk-step-dot {
+      border-color: $info;
+      color: $info;
+      box-shadow: 0 0 0 4px rgba(3, 105, 161, .15);
+    }
+  }
+}
+
+// Sticky side panel on detail pages
+.sk-side-panel {
+  @include media-breakpoint-up(lg) {
+    position: sticky;
+    top: calc(var(--sk-topbar-h) + 1.5rem);
+  }
+}
+
+.sk-filter-bar {
+  .form-control,
+  .form-select {
+    min-width: 0;
+  }
+
+  @include media-breakpoint-up(md) {
+    position: sticky;
+    top: var(--sk-topbar-h);
+    z-index: 1010;
+
+    .col-md { width: auto; } // undo col-12 width so the growing column stays on one row
+    input[type='date'] { width: 8.75rem; }
+    input[type='search'] { min-width: 8rem; }
+  }
+}

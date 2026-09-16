@@ -3,11 +3,11 @@
 @section('title', 'Buat Surat Keluar')
 
 @section('content')
-<h4 class="mb-3">Buat Surat Keluar</h4>
+<x-page-header title="Buat Surat Keluar" subtitle="Disimpan sebagai draft; nomor surat diterbitkan saat surat terbit." />
 
 <div class="card">
     <div class="card-body">
-        <form action="{{ route('surat-keluar.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('surat-keluar.store') }}" method="POST" enctype="multipart/form-data" data-loading>
             @csrf
             <div class="row">
                 <div class="col-md-4 mb-3">
@@ -70,8 +70,10 @@
                 <input type="file" name="lampirans[]" id="lampirans" class="form-control @error('lampirans.*') is-invalid @enderror" multiple accept=".pdf">
                 @error('lampirans.*') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
-            <a href="{{ route('surat-keluar.index') }}" class="btn btn-secondary">Batal</a>
-            <button type="submit" class="btn btn-primary">Simpan Draft</button>
+            <div class="d-flex gap-2 justify-content-end">
+                <a href="{{ route('surat-keluar.index') }}" class="btn btn-outline-secondary">Batal</a>
+                <button type="submit" class="btn btn-primary"><x-icon name="save" /> Simpan Draft</button>
+            </div>
         </form>
     </div>
 </div>

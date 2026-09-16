@@ -3,11 +3,11 @@
 @section('title', 'Catat Surat Masuk')
 
 @section('content')
-<h4 class="mb-3">Catat Surat Masuk</h4>
+<x-page-header title="Catat Surat Masuk" subtitle="Nomor agenda diberikan otomatis saat disimpan." />
 
 <div class="card">
     <div class="card-body">
-        <form action="{{ route('surat-masuk.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('surat-masuk.store') }}" method="POST" enctype="multipart/form-data" data-loading>
             @csrf
             <div class="row">
                 <div class="col-md-6 mb-3">
@@ -64,8 +64,10 @@
                     @error('lampirans.*') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
             </div>
-            <a href="{{ route('surat-masuk.index') }}" class="btn btn-secondary">Batal</a>
-            <button type="submit" class="btn btn-primary">Simpan</button>
+            <div class="d-flex gap-2 justify-content-end">
+                <a href="{{ route('surat-masuk.index') }}" class="btn btn-outline-secondary">Batal</a>
+                <button type="submit" class="btn btn-primary"><x-icon name="save" /> Simpan</button>
+            </div>
         </form>
     </div>
 </div>

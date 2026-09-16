@@ -3,11 +3,11 @@
 @section('title', 'Edit Surat Keluar')
 
 @section('content')
-<h4 class="mb-3">Edit Draft Surat Keluar</h4>
+<x-page-header title="Ubah Draft Surat Keluar" />
 
 <div class="card">
     <div class="card-body">
-        <form action="{{ route('surat-keluar.update', $suratKeluar) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('surat-keluar.update', $suratKeluar) }}" method="POST" enctype="multipart/form-data" data-loading>
             @csrf
             @method('PUT')
             <div class="row">
@@ -66,8 +66,10 @@
                 <label for="lampirans" class="form-label">Tambah Lampiran PDF</label>
                 <input type="file" name="lampirans[]" id="lampirans" class="form-control" multiple accept=".pdf">
             </div>
-            <a href="{{ route('surat-keluar.show', $suratKeluar) }}" class="btn btn-secondary">Batal</a>
-            <button type="submit" class="btn btn-primary">Simpan</button>
+            <div class="d-flex gap-2 justify-content-end">
+                <a href="{{ route('surat-keluar.show', $suratKeluar) }}" class="btn btn-outline-secondary">Batal</a>
+                <button type="submit" class="btn btn-primary"><x-icon name="save" /> Simpan Perubahan</button>
+            </div>
         </form>
     </div>
 </div>

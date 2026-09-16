@@ -3,11 +3,11 @@
 @section('title', 'Edit Surat Masuk')
 
 @section('content')
-<h4 class="mb-3">Edit Surat Masuk #{{ $suratMasuk->nomor_agenda }}</h4>
+<x-page-header title="Ubah Surat Masuk #{{ $suratMasuk->nomor_agenda }}" />
 
 <div class="card">
     <div class="card-body">
-        <form action="{{ route('surat-masuk.update', $suratMasuk) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('surat-masuk.update', $suratMasuk) }}" method="POST" enctype="multipart/form-data" data-loading>
             @csrf
             @method('PUT')
             <div class="row">
@@ -64,8 +64,10 @@
                     @error('lampirans.*') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
             </div>
-            <a href="{{ route('surat-masuk.show', $suratMasuk) }}" class="btn btn-secondary">Batal</a>
-            <button type="submit" class="btn btn-primary">Simpan</button>
+            <div class="d-flex gap-2 justify-content-end">
+                <a href="{{ route('surat-masuk.show', $suratMasuk) }}" class="btn btn-outline-secondary">Batal</a>
+                <button type="submit" class="btn btn-primary"><x-icon name="save" /> Simpan Perubahan</button>
+            </div>
         </form>
     </div>
 </div>

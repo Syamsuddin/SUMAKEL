@@ -332,7 +332,7 @@ Tidak ada perubahan di `app/`, `routes/`, `database/`. Test Pest yang ada harus 
 | Fase | Cakupan | Berkas utama | Estimasi | Status |
 |------|---------|--------------|----------|--------|
 | **1. Fondasi visual** | Token SCSS, font, Bootstrap Icons, app shell (sidebar + topbar + page header + breadcrumb), layout guest + login baru, komponen dasar (`page-header`, `status-chip`, `empty-state`, `icon`, `confirm-modal`) | `sass/*`, `layouts/*`, `components/*`, `auth/login` | 2 hari | selesai (2026-09-16) |
-| **2. Modul inti** | Surat Masuk index + detail (kop dokumen, timeline stepper, panel aksi), Surat Keluar index + detail (stepper terbit), tabel responsif | `surat-masuk/*`, `surat-keluar/*` | 2–3 hari | belum |
+| **2. Modul inti** | Surat Masuk index + detail (kop dokumen, timeline stepper, panel aksi), Surat Keluar index + detail (stepper terbit), tabel responsif | `surat-masuk/*`, `surat-keluar/*` | 2–3 hari | selesai (2026-09-16) |
 | **3. Dashboard & pendukung** | 4 dashboard peran, stat card, grafik ulang, notifikasi, agenda + versi cetak, master data, profil | `dashboard/*`, `notifikasi/*`, `agenda/*`, `master/*` | 2 hari | belum |
 | **4. Polesan & QA** | Audit kontras otomatis, uji 375/768/1024/1440, reduced-motion, keyboard, `pint --test`, `php artisan test`, `graphify update .` | — | 1 hari |
 

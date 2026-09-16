@@ -8,6 +8,7 @@ use App\Events\TindakLanjutDicatat;
 use App\Listeners\KirimNotifikasiDisposisi;
 use App\Listeners\KirimNotifikasiSuratAntarOpd;
 use App\Listeners\KirimNotifikasiTindakLanjut;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Paginator::useBootstrapFive();
+
         Event::listen(DisposisiDibuat::class, KirimNotifikasiDisposisi::class);
         Event::listen(TindakLanjutDicatat::class, KirimNotifikasiTindakLanjut::class);
         Event::listen(SuratAntarOpdTerkirim::class, KirimNotifikasiSuratAntarOpd::class);
