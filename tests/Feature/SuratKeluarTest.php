@@ -207,6 +207,12 @@ class SuratKeluarTest extends TestCase
 
         $response = $this->actingAs($adminB)->get(route('surat-masuk.index'));
         $response->assertSee('Routing Test');
+
+        // The sender must still see the destination record through the relation
+        // (it lives in OPD B's namespace, outside the OPD scope of admin A).
+        $response = $this->actingAs($this->adminA)->get(route('surat-keluar.show', $sk));
+        $response->assertSee('Diterima sebagai agenda');
+        $this->assertEquals($smTujuan->id, $sk->fresh()->suratMasukTujuan?->id);
     }
 
     private function assertStringContains(string $needle, string $haystack): void

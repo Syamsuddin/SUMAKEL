@@ -136,6 +136,10 @@ php artisan test --filter=SuratMasukTest
 # Cek code style
 ./vendor/bin/pint --test
 
+# Smoke test end-to-end lewat browser (85 langkah, 4 peran; butuh agent-browser CLI).
+# Memakai SQLite terpisah + queue sync, data lokal tidak disentuh.
+zsh scripts/smoke-test.sh
+
 # Auto-fix code style
 ./vendor/bin/pint
 ```
