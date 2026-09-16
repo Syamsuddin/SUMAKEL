@@ -1,30 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <meta charset="utf-8">
-    <title>Agenda {{ $dari }} - {{ $sampai }}</title>
+    <title>Buku Agenda {{ $dari }} - {{ $sampai }}</title>
     <style>
-        body { font-family: sans-serif; font-size: 11px; }
-        h2, h3 { text-align: center; margin: 0; }
-        h3 { margin-bottom: 10px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #333; padding: 4px 6px; text-align: left; }
-        th { background: #eee; }
-        .kop { text-align: center; margin-bottom: 15px; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        @page { margin: 18mm 15mm; }
+        body { font-family: 'EB Garamond', 'DejaVu Serif', Georgia, serif; font-size: 11pt; color: #020617; }
+        .kop { width: 100%; border-bottom: 3px double #0F172A; padding-bottom: 8px; margin-bottom: 14px; }
+        .kop td { vertical-align: middle; border: 0; padding: 0; }
+        .kop-logo { width: 70px; }
+        .kop-logo img { width: 62px; height: auto; }
+        .kop-teks { text-align: center; }
+        .kop-teks .pemda { font-size: 13pt; letter-spacing: 1px; text-transform: uppercase; }
+        .kop-teks .opd { font-size: 15pt; font-weight: bold; text-transform: uppercase; margin: 2px 0; }
+        .kop-teks .app { font-size: 9pt; color: #64748B; }
+        .gold { border-top: 1px solid #B45309; margin-top: 3px; }
+        h1 { font-size: 13pt; text-align: center; text-transform: uppercase; letter-spacing: 1px; margin: 12px 0 2px; }
+        .periode { text-align: center; font-size: 10pt; margin: 0 0 10px; color: #334155; }
+        table.data { width: 100%; border-collapse: collapse; font-size: 9.5pt; }
+        table.data th, table.data td { border: 1px solid #94A3B8; padding: 4px 5px; text-align: left; vertical-align: top; }
+        table.data th { background: #E8ECF1; font-size: 9pt; text-transform: uppercase; letter-spacing: .5px; }
+        table.data td.num { text-align: right; width: 28px; }
+        table.data td.tgl { white-space: nowrap; }
+        .footer { margin-top: 14px; font-size: 8.5pt; color: #64748B; text-align: right; }
     </style>
 </head>
 <body>
-    <div class="kop">
-        <h2>PEMERINTAH DAERAH</h2>
-        @if($opd)
-            <h3>{{ strtoupper($opd->nama) }}</h3>
-        @endif
-    </div>
+    <table class="kop">
+        <tr>
+            <td class="kop-logo"><img src="{{ public_path(config('app.logo')) }}" alt=""></td>
+            <td class="kop-teks">
+                <div class="pemda">{{ config('app.pemda') }}</div>
+                @if($opd)
+                    <div class="opd">{{ $opd->nama }}</div>
+                @endif
+                <div class="app">{{ config('app.name') }} &mdash; Sistem Tata Persuratan Elektronik</div>
+            </td>
+            <td class="kop-logo"></td>
+        </tr>
+    </table>
+    <div class="gold"></div>
 
-    <h3>BUKU AGENDA SURAT</h3>
-    <p style="text-align: center;">Periode: {{ $dari }} s/d {{ $sampai }}</p>
+    <h1>Buku Agenda Surat</h1>
+    <p class="periode">Periode {{ \Carbon\Carbon::parse($dari)->format('d-m-Y') }} s.d. {{ \Carbon\Carbon::parse($sampai)->format('d-m-Y') }}</p>
 
-    <table>
+    <table class="data">
         <thead>
             <tr>
                 <th>No</th>
@@ -33,17 +53,17 @@
                 <th>Perihal</th>
                 <th>Tanggal</th>
                 <th>Asal/Tujuan</th>
-                <th>Klasifikasi</th>
+                <th>Klas.</th>
             </tr>
         </thead>
         <tbody>
             @forelse($items as $i => $item)
                 <tr>
-                    <td>{{ $i + 1 }}</td>
+                    <td class="num">{{ $i + 1 }}</td>
                     <td>{{ $item['jenis'] }}</td>
-                    <td>{{ $item['nomor'] }}</td>
+                    <td>{{ $item['nomor'] ?? '-' }}</td>
                     <td>{{ $item['perihal'] }}</td>
-                    <td>{{ $item['tanggal'] }}</td>
+                    <td class="tgl">{{ $item['tanggal'] }}</td>
                     <td>{{ $item['pihak'] }}</td>
                     <td>{{ $item['klasifikasi'] }}</td>
                 </tr>
@@ -54,5 +74,7 @@
             @endforelse
         </tbody>
     </table>
+
+    <div class="footer">Dicetak {{ now()->format('d-m-Y H:i') }} oleh {{ auth()->user()->name }} &middot; {{ $items->count() }} surat</div>
 </body>
 </html>

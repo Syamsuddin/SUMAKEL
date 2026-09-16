@@ -37,9 +37,13 @@ class DashboardController extends Controller
             return $opd;
         });
 
+        $totalOpd = $rekapOpd->count();
+        $totalUser = $rekapOpd->sum('users_count');
+        $totalSm = $rekapOpd->sum('sm_count');
+        $totalSk = $rekapOpd->sum('sk_count');
         $chartData = $this->chartVolume12Bulan();
 
-        return view('dashboard.superadmin', compact('rekapOpd', 'chartData'));
+        return view('dashboard.superadmin', compact('rekapOpd', 'chartData', 'totalOpd', 'totalUser', 'totalSm', 'totalSk'));
     }
 
     private function adminTu()
@@ -48,33 +52,58 @@ class DashboardController extends Controller
         $smBulanIni = SuratMasuk::where('tanggal_terima', '>=', $bulanIni)->count();
         $skBulanIni = SuratKeluar::where('created_at', '>=', $bulanIni)->count();
         $smBelumDisposisi = SuratMasuk::where('status', 'baru')->count();
+        $disposisiLewatTenggat = Disposisi::whereIn('status', ['terkirim', 'dibaca', 'diproses'])
+            ->whereDate('batas_waktu', '<', today())
+            ->count();
+        $smTerbaru = SuratMasuk::with('klasifikasi')->latest()->take(5)->get();
         $chartData = $this->chartVolume12Bulan(auth()->user()->opd_id);
 
-        return view('dashboard.admin_tu', compact('smBulanIni', 'skBulanIni', 'smBelumDisposisi', 'chartData'));
+        return view('dashboard.admin_tu', compact('smBulanIni', 'skBulanIni', 'smBelumDisposisi', 'disposisiLewatTenggat', 'smTerbaru', 'chartData'));
     }
 
     private function pimpinan()
     {
         $disposisiMenunggu = Disposisi::where('kepada_user_id', auth()->id())
             ->whereIn('status', ['terkirim', 'dibaca'])
-            ->with('suratMasuk')
+            ->with(['suratMasuk', 'dariUser'])
             ->latest()
             ->take(10)
             ->get();
 
-        return view('dashboard.pimpinan', compact('disposisiMenunggu'));
+        $ringkasan = $this->ringkasanDisposisi();
+
+        return view('dashboard.pimpinan', compact('disposisiMenunggu', 'ringkasan'));
     }
 
     private function staf()
     {
         $tugasDisposisi = Disposisi::where('kepada_user_id', auth()->id())
             ->whereIn('status', ['terkirim', 'dibaca', 'diproses'])
-            ->with('suratMasuk')
+            ->with(['suratMasuk', 'dariUser'])
+            ->orderByRaw('batas_waktu IS NULL')
             ->orderBy('batas_waktu')
             ->take(10)
             ->get();
 
-        return view('dashboard.staf', compact('tugasDisposisi'));
+        $ringkasan = $this->ringkasanDisposisi();
+
+        return view('dashboard.staf', compact('tugasDisposisi', 'ringkasan'));
+    }
+
+    /**
+     * Counts of the current user's dispositions: waiting, in progress,
+     * completed this month, overdue.
+     */
+    private function ringkasanDisposisi(): array
+    {
+        $base = Disposisi::where('kepada_user_id', auth()->id());
+
+        return [
+            'menunggu' => (clone $base)->whereIn('status', ['terkirim', 'dibaca'])->count(),
+            'diproses' => (clone $base)->where('status', 'diproses')->count(),
+            'selesai' => (clone $base)->where('status', 'selesai')->where('updated_at', '>=', now()->startOfMonth())->count(),
+            'lewat' => (clone $base)->whereIn('status', ['terkirim', 'dibaca', 'diproses'])->whereDate('batas_waktu', '<', today())->count(),
+        ];
     }
 
     private function chartVolume12Bulan(?int $opdId = null): array

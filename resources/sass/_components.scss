@@ -580,3 +580,188 @@
     input[type='search'] { min-width: 8rem; }
   }
 }
+
+// ---------- Fase 3: dashboard & supporting pages ----------
+
+.sk-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .75rem;
+  margin-bottom: 1.25rem;
+
+  @include media-breakpoint-up(lg) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+}
+
+.sk-stat {
+  display: flex;
+  align-items: center;
+  gap: .875rem;
+  padding: 1rem;
+  background: var(--sk-surface);
+  border: 1px solid var(--sk-border);
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-sm;
+  color: $body-color;
+  text-decoration: none;
+  min-height: 88px;
+  transition: border-color var(--dur-fast) ease-out;
+
+  &[href]:hover {
+    border-color: $info;
+    color: $body-color;
+  }
+
+  .sk-stat-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: $border-radius-sm;
+    flex-shrink: 0;
+    font-size: var(--icon-lg);
+  }
+
+  .sk-stat-body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .sk-stat-value {
+    font-family: $headings-font-family;
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+
+    @include media-breakpoint-up(lg) {
+      font-size: 2.25rem;
+    }
+  }
+
+  .sk-stat-label {
+    font-size: .875rem;
+    color: $text-muted;
+    font-weight: 500;
+  }
+
+  .sk-stat-hint {
+    font-size: .75rem;
+    color: $text-muted;
+  }
+
+  &.sk-stat-primary .sk-stat-icon { background: #E2E8F0; color: $primary; }
+  &.sk-stat-info    .sk-stat-icon { background: #E0F2FE; color: #075985; }
+  &.sk-stat-success .sk-stat-icon { background: #DCFCE7; color: #166534; }
+  &.sk-stat-warning .sk-stat-icon { background: #FEF3C7; color: #92400E; }
+  &.sk-stat-danger  .sk-stat-icon { background: #FEE2E2; color: #991B1B; }
+  &.sk-stat-neutral .sk-stat-icon { background: var(--sk-muted); color: $secondary; }
+
+  &.sk-stat-danger .sk-stat-value { color: $danger; }
+}
+
+// Dashboard task rows
+.sk-task {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem .875rem;
+  align-items: flex-start;
+  padding: .875rem 1rem;
+
+  .sk-task-body {
+    flex: 1 1 18rem;
+    min-width: 0;
+  }
+
+  .sk-task-title {
+    font-weight: 600;
+  }
+
+  .sk-task-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem .875rem;
+    font-size: .8125rem;
+    color: $text-muted;
+    margin: .125rem 0 .25rem;
+  }
+
+  .sk-task-instr {
+    margin: 0;
+    color: $secondary;
+  }
+
+  .sk-task-actions {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-left: auto;
+  }
+}
+
+// Notification list
+.sk-notif-row {
+  display: flex;
+  gap: .875rem;
+  align-items: flex-start;
+  padding: .875rem 1rem;
+  color: $body-color;
+  text-decoration: none;
+
+  &:hover {
+    color: $body-color;
+  }
+
+  &.is-unread {
+    background: #EFF6FF;
+    border-left: 3px solid $info;
+
+    .sk-notif-title {
+      font-weight: 600;
+    }
+  }
+
+  .sk-notif-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--sk-muted);
+    color: $secondary;
+    flex-shrink: 0;
+    font-size: var(--icon-md);
+  }
+
+  .sk-notif-body {
+    flex-grow: 1;
+    min-width: 0;
+  }
+
+  .sk-notif-time {
+    font-size: .8125rem;
+    color: $text-muted;
+    white-space: nowrap;
+  }
+}
+
+// Form sections on master/profile pages
+.sk-fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0 0 1.5rem;
+
+  legend {
+    font-family: $headings-font-family;
+    font-size: 1rem;
+    font-weight: 600;
+    padding-bottom: .5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--sk-border);
+  }
+}
