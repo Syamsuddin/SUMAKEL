@@ -17,6 +17,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Local Government Identity
+    |--------------------------------------------------------------------------
+    |
+    | Shown in the app shell, login page and printed documents. The logo is a
+    | path relative to the public directory.
+    |
+    */
+
+    'pemda' => env('APP_PEMDA', 'Pemerintah Daerah'),
+    'tagline' => env('APP_TAGLINE', 'Sistem Tata Persuratan Elektronik Pemerintah Daerah'),
+    'logo' => env('APP_LOGO', 'images/logo-pemda.png'),
+    'version' => '1.0.0',
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

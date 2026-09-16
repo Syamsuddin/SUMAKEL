@@ -1,0 +1,132 @@
+// Guest (login / password) layout: split screen (USULAN §5.1)
+.sk-guest {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  @include media-breakpoint-up(lg) {
+    flex-direction: row;
+  }
+}
+
+.sk-guest-panel {
+  background: $primary;
+  color: #fff;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 160px;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    background: var(--sk-gold);
+  }
+
+  @include media-breakpoint-up(lg) {
+    width: 45%;
+    padding: 3rem;
+
+    &::after {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: auto;
+      width: 3px;
+      height: auto;
+    }
+  }
+
+  img,
+  svg {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+
+    @include media-breakpoint-up(lg) {
+      width: 128px;
+      height: 128px;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  h1 {
+    font-size: 1.375rem;
+    margin-bottom: .25rem;
+    color: #fff;
+
+    @include media-breakpoint-up(lg) {
+      font-size: 1.75rem;
+    }
+  }
+
+  .sk-guest-pemda {
+    font-size: .9375rem;
+    color: var(--sk-nav-fg);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: .5rem;
+  }
+
+  .sk-guest-tagline {
+    color: var(--sk-nav-label);
+    max-width: 32ch;
+    margin: 0 auto;
+    display: none;
+
+    @include media-breakpoint-up(lg) {
+      display: block;
+    }
+  }
+}
+
+.sk-guest-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: $body-bg;
+}
+
+.sk-guest-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--sk-surface);
+  border: 1px solid var(--sk-border);
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-sm;
+  padding: 1.75rem 1.5rem;
+
+  @include media-breakpoint-up(sm) {
+    padding: 2rem;
+  }
+
+  h2 {
+    font-size: 1.375rem;
+    margin-bottom: .25rem;
+  }
+}
+
+.sk-guest-footer {
+  margin-top: 1.5rem;
+  font-size: .8125rem;
+  color: $text-muted;
+  text-align: center;
+}
+
+.sk-password-toggle {
+  border-color: $border-color;
+  color: $secondary;
+  width: 44px;
+}

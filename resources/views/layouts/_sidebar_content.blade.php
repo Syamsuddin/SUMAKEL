@@ -1,74 +1,68 @@
-<div class="p-3">
-    <span class="fs-5 fw-semibold">e-Surat</span>
+@php
+    $currentRoute = Route::currentRouteName() ?? '';
+    $user = auth()->user();
+    $initials = Str::of($user->name)->explode(' ')->map(fn ($w) => Str::substr($w, 0, 1))->take(2)->implode('');
+    $navItems = [
+        ['label' => 'Persuratan', 'roles' => 'admin_tu|pimpinan|staf', 'items' => [
+            ['route' => 'surat-masuk.index', 'prefix' => 'surat-masuk', 'icon' => 'envelope-arrow-down', 'label' => 'Surat Masuk'],
+            ['route' => 'surat-keluar.index', 'prefix' => 'surat-keluar', 'icon' => 'envelope-arrow-up', 'label' => 'Surat Keluar'],
+            ['route' => 'agenda.index', 'prefix' => 'agenda', 'icon' => 'journal-text', 'label' => 'Agenda'],
+        ]],
+        ['label' => 'Master Data', 'roles' => 'superadmin|admin_tu', 'items' => [
+            ['route' => 'opd.index', 'prefix' => 'opd', 'icon' => 'building', 'label' => 'OPD', 'role' => 'superadmin'],
+            ['route' => 'klasifikasi.index', 'prefix' => 'klasifikasi', 'icon' => 'tags', 'label' => 'Klasifikasi', 'role' => 'superadmin'],
+            ['route' => 'user.index', 'prefix' => 'user', 'icon' => 'people', 'label' => 'Pengguna'],
+        ]],
+    ];
+@endphp
+
+<a class="sk-brand" href="{{ route('dashboard') }}">
+    <img src="{{ asset(config('app.logo')) }}" alt="Lambang {{ config('app.pemda') }}">
+    <span>
+        <span class="sk-brand-name d-block">{{ config('app.name') }}</span>
+        <span class="sk-brand-sub d-block">{{ config('app.pemda') }}</span>
+    </span>
+</a>
+
+<div class="sk-opd">
+    <span class="sk-opd-label">Unit kerja</span>
+    <span class="sk-opd-name">{{ $user->opd->nama ?? 'Seluruh OPD' }}</span>
 </div>
-<hr class="text-secondary my-0">
-<ul class="nav nav-pills flex-column p-2">
-    <li class="nav-item">
-        <a class="nav-link text-white {{ ($currentRoute ?? '') === 'dashboard' ? 'active' : '' }}"
-           href="{{ route('dashboard') }}">
-            Dashboard
+
+<ul class="sk-nav">
+    <li>
+        <a class="sk-nav-link {{ $currentRoute === 'dashboard' ? 'active' : '' }}" href="{{ route('dashboard') }}" @if($currentRoute === 'dashboard') aria-current="page" @endif>
+            <x-icon name="speedometer2" /> Dashboard
         </a>
     </li>
 
-    @hasanyrole('admin_tu|pimpinan|staf')
-        @if(Route::has('surat-masuk.index'))
-            <li class="nav-item mt-2">
-                <small class="text-secondary px-3 text-uppercase">Persuratan</small>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ str_starts_with($currentRoute ?? '', 'surat-masuk') ? 'active' : '' }}"
-                   href="{{ route('surat-masuk.index') }}">
-                    Surat Masuk
-                </a>
-            </li>
-        @endif
-        @if(Route::has('surat-keluar.index'))
-            <li class="nav-item">
-                <a class="nav-link text-white {{ str_starts_with($currentRoute ?? '', 'surat-keluar') ? 'active' : '' }}"
-                   href="{{ route('surat-keluar.index') }}">
-                    Surat Keluar
-                </a>
-            </li>
-        @endif
-        @if(Route::has('agenda.index'))
-            <li class="nav-item">
-                <a class="nav-link text-white {{ str_starts_with($currentRoute ?? '', 'agenda') ? 'active' : '' }}"
-                   href="{{ route('agenda.index') }}">
-                    Agenda
-                </a>
-            </li>
-        @endif
-    @endhasanyrole
-
-    @hasanyrole('superadmin|admin_tu')
-        <li class="nav-item mt-2">
-            <small class="text-secondary px-3 text-uppercase">Master Data</small>
-        </li>
-        @role('superadmin')
-            @if(Route::has('opd.index'))
-                <li class="nav-item">
-                    <a class="nav-link text-white {{ str_starts_with($currentRoute ?? '', 'opd') ? 'active' : '' }}"
-                       href="{{ route('opd.index') }}">
-                        OPD
-                    </a>
-                </li>
-            @endif
-            @if(Route::has('klasifikasi.index'))
-                <li class="nav-item">
-                    <a class="nav-link text-white {{ str_starts_with($currentRoute ?? '', 'klasifikasi') ? 'active' : '' }}"
-                       href="{{ route('klasifikasi.index') }}">
-                        Klasifikasi
-                    </a>
-                </li>
-            @endif
-        @endrole
-        @if(Route::has('user.index'))
-            <li class="nav-item">
-                <a class="nav-link text-white {{ str_starts_with($currentRoute ?? '', 'user') ? 'active' : '' }}"
-                   href="{{ route('user.index') }}">
-                    Pengguna
-                </a>
-            </li>
-        @endif
-    @endhasanyrole
+    @foreach($navItems as $group)
+        @hasanyrole($group['roles'])
+            <li class="sk-nav-label">{{ $group['label'] }}</li>
+            @foreach($group['items'] as $item)
+                @if(Route::has($item['route']) && (empty($item['role']) || $user->hasRole($item['role'])))
+                    @php $active = str_starts_with($currentRoute, $item['prefix']); @endphp
+                    <li>
+                        <a class="sk-nav-link {{ $active ? 'active' : '' }}" href="{{ route($item['route']) }}" @if($active) aria-current="page" @endif>
+                            <x-icon :name="$item['icon']" /> {{ $item['label'] }}
+                        </a>
+                    </li>
+                @endif
+            @endforeach
+        @endhasanyrole
+    @endforeach
 </ul>
+
+<div class="sk-sidebar-footer">
+    <div class="sk-user">
+        <span class="sk-avatar" aria-hidden="true">{{ $initials }}</span>
+        <span class="min-w-0">
+            <span class="sk-user-name d-block">{{ $user->name }}</span>
+            <span class="sk-role-chip">{{ str_replace('_', ' ', $user->getRoleNames()->first()) }}</span>
+        </span>
+    </div>
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
+        <button type="submit" class="sk-logout"><x-icon name="box-arrow-right" /> Keluar</button>
+    </form>
+</div>

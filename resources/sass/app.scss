@@ -1,8 +1,18 @@
-// Fonts
-@import url('https://fonts.bunny.net/css?family=Nunito');
+// Fonts: Lexend (headings) + Source Sans 3 (body) via bunny.net (privacy-friendly)
+@import url('https://fonts.bunny.net/css?family=lexend:500,600,700|source-sans-3:400,600,700&display=swap');
 
 // Variables
 @import 'variables';
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+// Bootstrap Icons webfont (font path resolved relative to this file for Vite)
+$bootstrap-icons-font-dir: '../../node_modules/bootstrap-icons/font/fonts';
+@import 'bootstrap-icons/font/bootstrap-icons';
+
+// Project layers
+@import 'tokens';
+@import 'shell';
+@import 'components';
+@import 'guest';

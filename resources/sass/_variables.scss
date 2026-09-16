@@ -1,7 +1,62 @@
-// Body
-$body-bg: #f8fafc;
+// Institutional palette (docs/USULAN-REDESAIN-UI.md §3.2, §7.1)
+// All text/background pairs verified >= 4.5:1 (WCAG AA).
+$primary:   #0F172A; // navy
+$secondary: #334155; // slate
+$info:      #0369A1; // institutional blue (accent)
+$success:   #15803D;
+$warning:   #B45309; // dark amber: white text on BS yellow is only 1.6:1
+$danger:    #DC2626;
+$light:     #F8FAFC;
+$dark:      #020617;
 
-// Typography
-$font-family-sans-serif: 'Nunito', sans-serif;
-$font-size-base: 0.9rem;
-$line-height-base: 1.6;
+$body-bg:      #F8FAFC;
+$body-color:   #020617;
+$border-color: #E2E8F0;
+$text-muted:   #64748B;
+$link-color:   $info;
+$link-hover-color: darken($info, 8%);
+
+// Typography: "Corporate Trust" pairing (Lexend headings + Source Sans 3 body)
+$font-family-sans-serif: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+$headings-font-family:   'Lexend', system-ui, sans-serif;
+$headings-font-weight:   600;
+$font-size-base: 1rem; // 16px
+$line-height-base: 1.5;
+$h1-font-size: 2.25rem; // 36
+$h2-font-size: 1.75rem; // 28
+$h3-font-size: 1.375rem; // 22
+$h4-font-size: 1.125rem; // 18
+$h5-font-size: 1rem;
+$h6-font-size: .875rem;
+
+// Shape & elevation
+$border-radius:    .5rem;
+$border-radius-sm: .25rem;
+$border-radius-lg: .75rem;
+$box-shadow-sm: 0 1px 2px rgba(15, 23, 42, .06);
+$card-box-shadow: $box-shadow-sm;
+$card-border-color: $border-color;
+$card-cap-bg: #fff;
+
+// Controls: >= 44px touch target
+$input-btn-padding-y: .625rem;
+$input-btn-padding-x: .875rem;
+$input-btn-padding-y-sm: .375rem;
+$input-btn-padding-x-sm: .625rem;
+$input-focus-border-color: $info;
+$input-focus-box-shadow: 0 0 0 3px rgba(3, 105, 161, .35);
+$btn-focus-box-shadow: $input-focus-box-shadow;
+$btn-font-weight: 600;
+$form-label-font-weight: 600;
+
+$table-th-font-weight: 600;
+$table-hover-bg: #F1F5F9;
+$badge-font-weight: 600;
+$badge-padding-y: .35em;
+$badge-padding-x: .6em;
+
+$dropdown-border-color: $border-color;
+$dropdown-box-shadow: 0 8px 24px rgba(15, 23, 42, .12);
+$modal-content-border-radius: $border-radius-lg;
+$offcanvas-horizontal-width: 280px;
+$transition-base: all .15s ease-out;

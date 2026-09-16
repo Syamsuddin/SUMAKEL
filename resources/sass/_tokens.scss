@@ -1,0 +1,36 @@
+// Custom design tokens shared by shell and components (USULAN §7.2)
+:root {
+  --sk-sidebar-w: 260px;
+  --sk-topbar-h: 56px;
+  --sk-content-max: 1400px;
+  --sk-gold: #B45309;
+  --sk-surface: #fff;
+  --sk-muted: #E8ECF1;
+  --sk-border: #E2E8F0;
+  --sk-nav-fg: #CBD5E1;
+  --sk-nav-label: #94A3B8; // 5.9:1 on navy
+  --sk-nav-active-bg: rgba(255, 255, 255, .08);
+  --sk-nav-hover-bg: rgba(255, 255, 255, .05);
+  --sk-focus-ring: 0 0 0 3px rgba(3, 105, 161, .35);
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --dur-fast: 150ms;
+  --dur-base: 200ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
