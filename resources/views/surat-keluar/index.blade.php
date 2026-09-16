@@ -3,95 +3,113 @@
 @section('title', 'Surat Keluar')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h4>Daftar Surat Keluar</h4>
-    @can('create', App\Models\SuratKeluar::class)
-        <a href="{{ route('surat-keluar.create') }}" class="btn btn-primary">Buat Surat Keluar</a>
-    @endcan
-</div>
+<x-page-header title="Surat Keluar" subtitle="Daftar surat keluar {{ auth()->user()->opd->nama ?? 'seluruh OPD' }}">
+    <x-slot:actions>
+        @can('create', App\Models\SuratKeluar::class)
+            <a href="{{ route('surat-keluar.create') }}" class="btn btn-primary"><x-icon name="plus-lg" /> Buat Surat Keluar</a>
+        @endcan
+    </x-slot:actions>
+</x-page-header>
 
-<div class="card mb-3">
-    <div class="card-body">
-        <form method="GET" class="row g-2 align-items-end">
-            <div class="col-md-2">
-                <label class="form-label small">Dari</label>
-                <input type="date" name="dari" class="form-control form-control-sm" value="{{ request('dari') }}">
-            </div>
-            <div class="col-md-2">
-                <label class="form-label small">Sampai</label>
-                <input type="date" name="sampai" class="form-control form-control-sm" value="{{ request('sampai') }}">
-            </div>
-            <div class="col-md-2">
-                <label class="form-label small">Status</label>
-                <select name="status" class="form-select form-select-sm">
-                    <option value="">Semua</option>
-                    @foreach(['draft','terbit','diarsip'] as $s)
-                        <option value="{{ $s }}" {{ request('status') === $s ? 'selected' : '' }}>{{ ucfirst($s) }}</option>
+<x-filter-bar placeholder="Perihal / nomor" :reset="route('surat-keluar.index')">
+    <div class="col-6 col-md-auto">
+        <label for="f-dari" class="form-label">Dari</label>
+        <input type="date" name="dari" id="f-dari" class="form-control form-control-sm" value="{{ request('dari') }}">
+    </div>
+    <div class="col-6 col-md-auto">
+        <label for="f-sampai" class="form-label">Sampai</label>
+        <input type="date" name="sampai" id="f-sampai" class="form-control form-control-sm" value="{{ request('sampai') }}">
+    </div>
+    <div class="col-6 col-md-auto">
+        <label for="f-status" class="form-label">Status</label>
+        <select name="status" id="f-status" class="form-select form-select-sm">
+            <option value="">Semua</option>
+            @foreach(['draft','terbit','diarsip'] as $s)
+                <option value="{{ $s }}" {{ request('status') === $s ? 'selected' : '' }}>{{ ucfirst($s) }}</option>
+            @endforeach
+        </select>
+    </div>
+</x-filter-bar>
+
+@if($suratKeluars->isEmpty())
+    <div class="card">
+        <x-empty-state icon="envelope-arrow-up" title="Belum ada surat keluar"
+                       :text="request()->hasAny(['dari','sampai','status','cari']) ? 'Tidak ada surat yang cocok dengan filter.' : 'Buat draft surat keluar, lalu terbitkan untuk mendapatkan nomor resmi.'">
+            <x-slot:action>
+                @can('create', App\Models\SuratKeluar::class)
+                    <a href="{{ route('surat-keluar.create') }}" class="btn btn-primary"><x-icon name="plus-lg" /> Buat Surat Keluar</a>
+                @endcan
+            </x-slot:action>
+        </x-empty-state>
+    </div>
+@else
+    <div class="card sk-table-wrap">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">Nomor</th>
+                        <th scope="col">Perihal</th>
+                        <th scope="col">Tujuan</th>
+                        <th scope="col">Tanggal</th>
+                        <th scope="col">Sifat</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"><span class="visually-hidden">Aksi</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($suratKeluars as $sk)
+                        <tr>
+                            <td class="sk-num">
+                                @if($sk->nomor)
+                                    {{ $sk->nomor }}
+                                @else
+                                    <span class="text-muted fw-normal fst-italic">Belum bernomor</span>
+                                @endif
+                            </td>
+                            <td><div class="sk-clamp-2">{{ $sk->perihal }}</div></td>
+                            <td>
+                                @if($sk->jenis_tujuan === 'internal')
+                                    <span class="sk-chip sk-chip-info"><x-icon name="building" /> {{ $sk->tujuanOpd?->nama }}</span>
+                                @else
+                                    {{ $sk->tujuan_eksternal }}
+                                @endif
+                            </td>
+                            <td class="text-nowrap">{{ $sk->tanggal_surat->format('d-m-Y') }}</td>
+                            <td><x-status-chip :sifat="$sk->sifat" /></td>
+                            <td><x-status-chip :status="$sk->status" /></td>
+                            <td class="text-end">
+                                <a href="{{ route('surat-keluar.show', $sk) }}" class="btn btn-sm btn-outline-primary text-nowrap" aria-label="Lihat detail surat {{ $sk->nomor ?? 'draft '.$sk->id }}">
+                                    <x-icon name="eye" /><span class="d-none d-lg-inline ms-1">Detail</span>
+                                </a>
+                            </td>
+                        </tr>
                     @endforeach
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label class="form-label small">Cari</label>
-                <input type="text" name="cari" class="form-control form-control-sm" value="{{ request('cari') }}" placeholder="Perihal / nomor">
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-sm btn-outline-primary">Filter</button>
-                <a href="{{ route('surat-keluar.index') }}" class="btn btn-sm btn-outline-secondary">Reset</a>
-            </div>
-        </form>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
-<div class="card">
-    <div class="table-responsive">
-        <table class="table table-hover mb-0">
-            <thead class="table-light">
-                <tr>
-                    <th>Nomor</th>
-                    <th>Perihal</th>
-                    <th>Tujuan</th>
-                    <th>Tanggal</th>
-                    <th>Sifat</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($suratKeluars as $sk)
-                    <tr>
-                        <td>{{ $sk->nomor ?? '-' }}</td>
-                        <td>{{ Str::limit($sk->perihal, 40) }}</td>
-                        <td>
-                            @if($sk->jenis_tujuan === 'internal')
-                                <span class="badge bg-info">{{ $sk->tujuanOpd?->nama }}</span>
-                            @else
-                                {{ $sk->tujuan_eksternal }}
-                            @endif
-                        </td>
-                        <td>{{ $sk->tanggal_surat->format('d-m-Y') }}</td>
-                        <td>
-                            <span class="badge bg-{{ $sk->sifat === 'rahasia' ? 'danger' : ($sk->sifat === 'penting' ? 'warning' : 'info') }}">
-                                {{ ucfirst($sk->sifat) }}
-                            </span>
-                        </td>
-                        <td>
-                            <span class="badge bg-{{ $sk->status === 'terbit' ? 'success' : ($sk->status === 'diarsip' ? 'secondary' : 'warning') }}">
-                                {{ ucfirst($sk->status) }}
-                            </span>
-                        </td>
-                        <td>
-                            <a href="{{ route('surat-keluar.show', $sk) }}" class="btn btn-sm btn-outline-primary">Detail</a>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="7" class="text-center text-muted py-4">Belum ada surat keluar.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+    <div class="sk-card-list">
+        @foreach($suratKeluars as $sk)
+            <a href="{{ route('surat-keluar.show', $sk) }}" class="sk-list-card">
+                <div class="d-flex justify-content-between gap-2">
+                    <span class="sk-num">{{ $sk->nomor ?? 'Belum bernomor' }}</span>
+                    <span class="sk-list-card-meta">{{ $sk->tanggal_surat->format('d-m-Y') }}</span>
+                </div>
+                <div class="sk-list-card-title sk-clamp-2">{{ $sk->perihal }}</div>
+                <div class="sk-list-card-meta">
+                    <x-icon :name="$sk->jenis_tujuan === 'internal' ? 'building' : 'globe2'" />
+                    {{ $sk->jenis_tujuan === 'internal' ? $sk->tujuanOpd?->nama : $sk->tujuan_eksternal }}
+                </div>
+                <div class="sk-list-card-chips">
+                    <x-status-chip :sifat="$sk->sifat" />
+                    <x-status-chip :status="$sk->status" />
+                </div>
+            </a>
+        @endforeach
     </div>
-</div>
 
-{{ $suratKeluars->links() }}
+    <x-pagination :paginator="$suratKeluars" />
+@endif
 @endsection

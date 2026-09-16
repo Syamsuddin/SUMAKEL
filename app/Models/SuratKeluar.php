@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToOpd;
+use App\Models\Scopes\OpdScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -48,8 +49,12 @@ class SuratKeluar extends Model
         return $this->morphMany(Lampiran::class, 'lampiranable');
     }
 
+    /**
+     * The incoming-mail record created at the destination OPD. It lives in
+     * another OPD's namespace, so the OPD scope must not filter it out.
+     */
     public function suratMasukTujuan(): HasOne
     {
-        return $this->hasOne(SuratMasuk::class, 'surat_keluar_id');
+        return $this->hasOne(SuratMasuk::class, 'surat_keluar_id')->withoutGlobalScope(OpdScope::class);
     }
 }

@@ -2,32 +2,41 @@
 
 @section('title', 'Notifikasi')
 
+@php
+    $notifIcons = ['DisposisiBaru' => 'diagram-3', 'TindakLanjutBaru' => 'check2-square', 'SuratAntarOpdMasuk' => 'envelope-arrow-down'];
+    $unread = auth()->user()->unreadNotifications()->count();
+@endphp
+
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h4>Semua Notifikasi</h4>
-    @if(auth()->user()->unreadNotifications()->count() > 0)
-        <form action="{{ route('notifikasi.markAllRead') }}" method="POST">
-            @csrf
-            <button class="btn btn-sm btn-outline-primary">Tandai Semua Dibaca</button>
-        </form>
+<x-page-header title="Notifikasi" :subtitle="$unread > 0 ? $unread.' belum dibaca' : 'Semua notifikasi sudah dibaca'">
+    <x-slot:actions>
+        @if($unread > 0)
+            <form action="{{ route('notifikasi.markAllRead') }}" method="POST" data-loading>
+                @csrf
+                <button class="btn btn-outline-primary"><x-icon name="check2-all" /> Tandai semua dibaca</button>
+            </form>
+        @endif
+    </x-slot:actions>
+</x-page-header>
+
+<div class="card">
+    @if($notifications->isEmpty())
+        <x-empty-state icon="bell-slash" title="Belum ada notifikasi" text="Disposisi baru, tindak lanjut, dan surat antar-OPD akan muncul di sini." />
+    @else
+        <div class="list-group list-group-flush">
+            @foreach($notifications as $n)
+                <a href="{{ route('notifikasi.read', $n->id) }}" class="list-group-item list-group-item-action sk-notif-row {{ $n->read_at ? '' : 'is-unread' }}">
+                    <span class="sk-notif-icon"><x-icon :name="$notifIcons[class_basename($n->type)] ?? 'bell'" /></span>
+                    <span class="sk-notif-body">
+                        <span class="sk-notif-title d-block">{{ $n->data['judul'] ?? 'Notifikasi' }}</span>
+                        <span class="d-block text-muted">{{ $n->data['pesan'] ?? '' }}</span>
+                    </span>
+                    <span class="sk-notif-time" title="{{ $n->created_at->format('d-m-Y H:i') }}">{{ $n->created_at->diffForHumans() }}</span>
+                </a>
+            @endforeach
+        </div>
     @endif
 </div>
 
-<div class="list-group">
-    @forelse($notifications as $n)
-        <a href="{{ route('notifikasi.read', $n->id) }}" class="list-group-item list-group-item-action {{ $n->read_at ? '' : 'list-group-item-light fw-semibold' }}">
-            <div class="d-flex justify-content-between">
-                <div>
-                    <strong>{{ $n->data['judul'] ?? 'Notifikasi' }}</strong>
-                    <p class="mb-0 small text-muted">{{ $n->data['pesan'] ?? '' }}</p>
-                </div>
-                <small class="text-muted">{{ $n->created_at->diffForHumans() }}</small>
-            </div>
-        </a>
-    @empty
-        <div class="list-group-item text-center text-muted py-4">Belum ada notifikasi.</div>
-    @endforelse
-</div>
-
-{{ $notifications->links() }}
+<x-pagination :paginator="$notifications" />
 @endsection

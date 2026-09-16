@@ -1,0 +1,45 @@
+// Printing an app page: keep the document, drop the chrome
+@media print {
+  .sk-sidebar,
+  .sk-topbar,
+  .sk-skip-link,
+  .sk-filter-bar,
+  .sk-page-actions,
+  .sk-side-panel,
+  .sk-pagination .pagination,
+  .offcanvas,
+  .modal,
+  .btn {
+    display: none !important;
+  }
+
+  .sk-app,
+  .sk-main {
+    display: block;
+    min-height: 0;
+  }
+
+  .sk-content {
+    max-width: none;
+    padding: 0;
+  }
+
+  .card,
+  .sk-doc,
+  .sk-timeline-card {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .sk-table-wrap {
+    display: block !important;
+  }
+
+  .sk-card-list {
+    display: none !important;
+  }
+
+  a[href]::after {
+    content: '';
+  }
+}

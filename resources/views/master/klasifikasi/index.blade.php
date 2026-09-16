@@ -3,43 +3,51 @@
 @section('title', 'Kelola Klasifikasi')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h4>Daftar Klasifikasi</h4>
-    <a href="{{ route('klasifikasi.create') }}" class="btn btn-primary">Tambah Klasifikasi</a>
-</div>
+<x-page-header title="Klasifikasi" subtitle="Kode klasifikasi arsip yang dipakai seluruh OPD">
+    <x-slot:actions>
+        <a href="{{ route('klasifikasi.create') }}" class="btn btn-primary"><x-icon name="plus-lg" /> Tambah Klasifikasi</a>
+    </x-slot:actions>
+</x-page-header>
 
 <div class="card">
-    <div class="table-responsive">
-        <table class="table table-hover mb-0">
-            <thead class="table-light">
-                <tr>
-                    <th>Kode</th>
-                    <th>Nama</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($klasifikasis as $item)
+    @if($klasifikasis->isEmpty())
+        <x-empty-state icon="tags" title="Belum ada klasifikasi" text="Kode klasifikasi diperlukan saat mencatat surat.">
+            <x-slot:action><a href="{{ route('klasifikasi.create') }}" class="btn btn-primary"><x-icon name="plus-lg" /> Tambah Klasifikasi</a></x-slot:action>
+        </x-empty-state>
+    @else
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
                     <tr>
-                        <td>{{ $item->kode }}</td>
-                        <td>{{ $item->nama }}</td>
-                        <td>
-                            <a href="{{ route('klasifikasi.edit', $item) }}" class="btn btn-sm btn-outline-primary">Edit</a>
-                            <form action="{{ route('klasifikasi.destroy', $item) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus klasifikasi ini?')">
-                                @csrf @method('DELETE')
-                                <button class="btn btn-sm btn-outline-danger">Hapus</button>
-                            </form>
-                        </td>
+                        <th scope="col" style="width: 8rem">Kode</th>
+                        <th scope="col">Nama</th>
+                        <th scope="col"><span class="visually-hidden">Aksi</span></th>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="3" class="text-center text-muted py-4">Belum ada data klasifikasi.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    @foreach($klasifikasis as $item)
+                        <tr>
+                            <td class="sk-num">{{ $item->kode }}</td>
+                            <td>{{ $item->nama }}</td>
+                            <td class="text-end text-nowrap">
+                                <a href="{{ route('klasifikasi.edit', $item) }}" class="btn btn-sm btn-outline-primary" aria-label="Ubah {{ $item->kode }}"><x-icon name="pencil" /><span class="d-none d-lg-inline ms-1">Ubah</span></a>
+                                <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal-hapus-{{ $item->id }}" aria-label="Hapus {{ $item->kode }}"><x-icon name="trash" /><span class="d-none d-lg-inline ms-1">Hapus</span></button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @endif
 </div>
 
-{{ $klasifikasis->links() }}
+<x-pagination :paginator="$klasifikasis" />
+
+@push('modals')
+    @foreach($klasifikasis as $item)
+        <x-confirm-modal id="modal-hapus-{{ $item->id }}" :action="route('klasifikasi.destroy', $item)" method="DELETE"
+                         title="Hapus klasifikasi?" confirm="Ya, hapus"
+                         text="Klasifikasi {{ $item->kode }} — {{ $item->nama }} akan dihapus. Surat yang sudah memakai kode ini tidak ikut terhapus." />
+    @endforeach
+@endpush
 @endsection

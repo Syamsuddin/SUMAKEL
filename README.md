@@ -80,6 +80,14 @@ Atau gunakan SQLite (default):
 DB_CONNECTION=sqlite
 ```
 
+Identitas Pemda yang tampil di sidebar, halaman masuk, dan kop cetak agenda:
+
+```env
+APP_PEMDA="Pemerintah Kabupaten Hulu Sungai Selatan"
+APP_TAGLINE="Sistem Tata Persuratan Elektronik Pemerintah Daerah"
+APP_LOGO=images/logo-pemda.png   # relatif terhadap public/
+```
+
 ```bash
 # Jalankan migrasi & seeder
 php artisan migrate:fresh --seed
@@ -127,6 +135,10 @@ php artisan test --filter=SuratMasukTest
 
 # Cek code style
 ./vendor/bin/pint --test
+
+# Smoke test end-to-end lewat browser (85 langkah, 4 peran; butuh agent-browser CLI).
+# Memakai SQLite terpisah + queue sync, data lokal tidak disentuh.
+zsh scripts/smoke-test.sh
 
 # Auto-fix code style
 ./vendor/bin/pint
@@ -185,6 +197,10 @@ Pastikan:
 - `storage/` dan `bootstrap/cache/` writable
 - `APP_ENV=production`, `APP_DEBUG=false`
 - `php artisan config:cache && php artisan route:cache && php artisan view:cache`
+
+## Versi & Riwayat Perubahan
+
+Versi berjalan: **1.0.0** — lihat [CHANGELOG.md](CHANGELOG.md). Nomor versi ditetapkan di `composer.json`, `package.json`, dan `config/app.php` (`app.version`, tampil di halaman masuk dan sidebar).
 
 ## Lisensi
 

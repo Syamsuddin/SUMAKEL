@@ -2,39 +2,39 @@
 @php
     $unreadCount = auth()->user()->unreadNotifications()->count();
     $recentNotifications = auth()->user()->unreadNotifications()->take(10)->get();
+    $notifIcons = ['DisposisiBaru' => 'diagram-3', 'TindakLanjutBaru' => 'check2-square', 'SuratAntarOpdMasuk' => 'envelope-arrow-down'];
 @endphp
-<div class="dropdown me-2">
-    <a class="nav-link position-relative" href="#" role="button" data-bs-toggle="dropdown">
-        🔔
+<div class="dropdown">
+    <button class="sk-topbar-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+            aria-label="Notifikasi{{ $unreadCount > 0 ? ', '.$unreadCount.' belum dibaca' : '' }}">
+        <x-icon name="bell" />
         @if($unreadCount > 0)
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.65rem;">
-                {{ $unreadCount > 99 ? '99+' : $unreadCount }}
-            </span>
+            <span class="sk-topbar-badge" aria-hidden="true">{{ $unreadCount > 99 ? '99+' : $unreadCount }}</span>
         @endif
-    </a>
-    <ul class="dropdown-menu dropdown-menu-end" style="width: 350px; max-height: 400px; overflow-y: auto;">
-        <li><h6 class="dropdown-header">Notifikasi</h6></li>
-        @forelse($recentNotifications as $n)
-            <li>
-                <a class="dropdown-item small py-2" href="{{ route('notifikasi.read', $n->id) }}">
-                    <strong>{{ $n->data['judul'] ?? 'Notifikasi' }}</strong><br>
-                    <span class="text-muted">{{ Str::limit($n->data['pesan'] ?? '', 80) }}</span><br>
-                    <small class="text-muted">{{ $n->created_at->diffForHumans() }}</small>
-                </a>
-            </li>
-        @empty
-            <li><span class="dropdown-item-text text-muted small">Tidak ada notifikasi baru.</span></li>
-        @endforelse
-        <li><hr class="dropdown-divider"></li>
-        <li class="d-flex justify-content-between px-3 pb-1">
-            <a href="{{ route('notifikasi.index') }}" class="small">Lihat semua</a>
+    </button>
+    <div class="dropdown-menu dropdown-menu-end sk-notif-menu p-0">
+        <div class="d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
+            <span class="fw-semibold">Notifikasi</span>
             @if($unreadCount > 0)
                 <form action="{{ route('notifikasi.markAllRead') }}" method="POST">
                     @csrf
-                    <button class="btn btn-link btn-sm p-0 small">Tandai semua dibaca</button>
+                    <button class="btn btn-link btn-sm p-0">Tandai semua dibaca</button>
                 </form>
             @endif
-        </li>
-    </ul>
+        </div>
+        @forelse($recentNotifications as $n)
+            <a class="dropdown-item sk-notif-item border-bottom" href="{{ route('notifikasi.read', $n->id) }}">
+                <x-icon :name="$notifIcons[class_basename($n->type)] ?? 'bell'" />
+                <span class="min-w-0">
+                    <strong class="d-block">{{ $n->data['judul'] ?? 'Notifikasi' }}</strong>
+                    <span class="text-muted small d-block">{{ Str::limit($n->data['pesan'] ?? '', 80) }}</span>
+                    <small class="text-muted">{{ $n->created_at->diffForHumans() }}</small>
+                </span>
+            </a>
+        @empty
+            <div class="px-3 py-4 text-center text-muted small">Tidak ada notifikasi baru.</div>
+        @endforelse
+        <a href="{{ route('notifikasi.index') }}" class="dropdown-item text-center small fw-semibold py-2">Lihat semua notifikasi</a>
+    </div>
 </div>
 @endauth

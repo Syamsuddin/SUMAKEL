@@ -62,6 +62,7 @@ class NotifikasiTest extends TestCase
 
         Notification::assertSentTo($kepada, DisposisiBaru::class);
         Notification::assertNotSentTo($dari, DisposisiBaru::class);
+        Notification::assertSentToTimes($kepada, DisposisiBaru::class, 1);
     }
 
     public function test_tindak_lanjut_sends_notification_to_disposer(): void
@@ -129,6 +130,7 @@ class NotifikasiTest extends TestCase
 
         Notification::assertSentTo($adminB, SuratAntarOpdMasuk::class);
         Notification::assertNotSentTo($stafB, SuratAntarOpdMasuk::class);
+        Notification::assertSentToTimes($adminB, SuratAntarOpdMasuk::class, 1);
     }
 
     public function test_dashboard_accessible_per_role(): void
